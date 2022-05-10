@@ -13,7 +13,7 @@ fn main() {
     for i in 0..(lines.len()-2) {
         sum = 0;
         for j in 0..3 {
-            let n = lines[i+j].parse::<i32>().unwrap();
+            let n = lines[i+j].parse::<i32>().expect("Could not parse a line");
             // print!("n={} ", n);
             sum += n;
         }
