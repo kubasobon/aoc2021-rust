@@ -1,16 +1,33 @@
 use std::fmt;
 use std::fs;
-use std::collections::HashMap;
 
 struct Board {
     board: Vec::<i32>,
+    marked: Vec::<bool>,
 }
 
 impl Board {
     pub fn new() -> Self {
+        let m: Vec::<bool> = vec![false; 25];
         Self {
             board: Vec::new(),
+            marked: m,
         }
+    }
+
+    fn mark(&mut self, num: i32) {
+        if !self.board.contains(&num) {
+            return;
+        }
+        for (i, n) in self.board.iter().enumerate() {
+            if n == &num {
+                self.marked[i] = true;
+            }
+        }
+    }
+
+    fn has_bingo(&self) -> bool {
+
     }
 }
 
@@ -22,6 +39,7 @@ impl fmt::Display for Board {
                 disp.push_str("\n");
             }
             disp.push_str(format!("{:>3}", num).as_str());
+            disp.push_str(if self.marked[i] { "*" } else { " " });
         }
         write!(f, "{}", disp)
     }
@@ -48,8 +66,13 @@ fn main() {
         }
     }
     boards.push(new_board);
+
     println!("Collected {} boards", boards.len());
-    for b in boards.iter() {
-        println!("{}\n", b);
+
+    while {
+        println!("---------------------------------------");
+        for b in boards.iter_mut() {
+            println!("{}\n", b);
+        }
     }
 }
