@@ -1,6 +1,5 @@
 use std::fmt;
 use std::fs;
-use std::collections::HashMap;
 
 struct Board {
     board: Vec::<i32>,
