@@ -3,14 +3,58 @@ use std::fs;
 
 struct Board {
     board: Vec::<i32>,
+    marked: Vec::<bool>,
 }
 
 impl Board {
     pub fn new() -> Self {
         Self {
             board: Vec::new(),
+            marked: vec![false; 25],
         }
     }
+
+    fn mark(&mut self, given_num : &i32) {
+        for (i, num) in self.board.iter().enumerate() {
+            if num == given_num {
+                self.marked[i] = true;
+                break;
+            }
+        }
+    }
+}
+
+fn check_row(b : &Board) -> bool {
+    for row in 0..5 {
+        let mut win = true;
+        for cell in (row*5)..(row*5)+5 {
+            if !b.marked[cell] {
+                win = false;
+                break;
+            }
+        }
+        if win {
+            return true;
+        }
+    }
+    return false;
+}
+
+fn check_col(b : &Board) -> bool {
+    for col in 0..5 {
+        let mut win = true;
+        for row in 0..5 {
+            let cell = col + row*5;
+            if !b.marked[cell] {
+                win = false;
+                break;
+            }
+        }
+        if win {
+            return true;
+        }
+    }
+    return false;
 }
 
 impl fmt::Display for Board {
@@ -25,6 +69,7 @@ impl fmt::Display for Board {
         write!(f, "{}", disp)
     }
 }
+
 
 
 fn main() {
@@ -50,5 +95,14 @@ fn main() {
     println!("Collected {} boards", boards.len());
     for b in boards.iter() {
         println!("{}\n", b);
+    }
+
+    for given_num in numbers.iter() {
+        for b in boards.iter_mut() {
+            b.mark(given_num);
+            if check_row(&b) || check_col(&b) {
+                println!("BINGO!\n{}\n", b);
+            }
+        }
     }
 }
