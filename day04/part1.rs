@@ -98,11 +98,12 @@ fn main() {
         println!("{}\n", b);
     }
 
-    for given_num in numbers.iter() {
+    'number_loop: for given_num in numbers.iter() {
         for b in boards.iter_mut() {
             b.mark(given_num);
             if check_row(&b) || check_col(&b) {
                 println!("BINGO!\n{}\n", b);
+                break 'number_loop;
             }
         }
     }
