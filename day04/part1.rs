@@ -57,6 +57,16 @@ fn check_col(b : &Board) -> bool {
     return false;
 }
 
+fn sum_unmarked(b : &Board) -> i32 {
+    let mut sum : i32 = 0;
+    for (i, num) in b.board.iter().enumerate() {
+        if !b.marked[i] {
+            sum += num;
+        }
+    }
+    return sum;
+}
+
 impl fmt::Display for Board {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let mut disp = String::new();
@@ -103,6 +113,9 @@ fn main() {
             b.mark(given_num);
             if check_row(&b) || check_col(&b) {
                 println!("BINGO!\n{}\n", b);
+                let sum = sum_unmarked(&b);
+                println!("Sum of unmarked numbers: {}", sum);
+                println!("{} x {}: {}", sum, given_num, sum * given_num);
                 break 'number_loop;
             }
         }
