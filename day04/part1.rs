@@ -64,7 +64,8 @@ impl fmt::Display for Board {
             if i > 0 && i % 5 == 0 {
                 disp.push_str("\n");
             }
-            disp.push_str(format!("{:>3}", num).as_str());
+            let is_marked = if self.marked[i] { "*" } else { " " };
+            disp.push_str(format!("{:>3}{}", num, is_marked).as_str());
         }
         write!(f, "{}", disp)
     }
